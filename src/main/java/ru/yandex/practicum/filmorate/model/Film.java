@@ -23,10 +23,6 @@ public class Film {
     private final String name;
     @NotBlank
     private final String description;
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @JsonSerialize(using = LocalDateSerializer.class)
-    @JsonDeserialize(using = LocalDateDeserializer.class)
     private final LocalDate releaseDate;
     private final int duration;
 }

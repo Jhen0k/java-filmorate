@@ -58,8 +58,11 @@ public class UserController {
 
     @GetMapping("/user")
     public User findUserById(int id) {
-        //users.put(0 ,new User("evgeny", "Evgeny", 65, "tea985@yandex.ru"
-          //      , LocalDate.of(1985,7,9)));
-        return users.get(id);
+        if (users.containsKey(id)) {
+            log.info(users.get(id).toString());
+            return users.get(id);
+        } else {
+            throw new ValidationException("id: " + id + " не существует.");
+        }
     }
 }

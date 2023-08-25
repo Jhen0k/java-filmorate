@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
@@ -13,6 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/films")
+@AllArgsConstructor
 @Slf4j
 public class FilmController {
     private final GeneratorId generatorId = new GeneratorId();
@@ -50,6 +52,16 @@ public class FilmController {
         List<Film> films1 = films.values().stream().toList();
         log.info("Текущее количество постов: {}", films.size());
         return films1;
+    }
+
+    @GetMapping("/film")
+    public Film getFilm(int id) {
+        if (films.containsKey(id)) {
+            log.info(films.get(id).toString());
+            return films.get(id);
+        } else {
+            throw new ValidationException("id: " + id + " не существует.");
+        }
     }
 
 }

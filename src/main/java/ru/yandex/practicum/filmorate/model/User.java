@@ -28,9 +28,5 @@ public class User {
     private int id;
     @Email
     private final String email;
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @JsonSerialize(using = LocalDateSerializer.class)
-    @JsonDeserialize(using = LocalDateDeserializer.class)
     private final LocalDate birthday;
 }
