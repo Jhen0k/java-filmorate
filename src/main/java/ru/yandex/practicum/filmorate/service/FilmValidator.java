@@ -11,6 +11,7 @@ import java.time.LocalDate;
 public class FilmValidator {
     private int maxDescriptionLength = 200;
     private LocalDate releaseDate = LocalDate.parse("1895-12-28");
+    
     public boolean validatorFilm(Film film) {
 
          if (film.getDescription().length() > maxDescriptionLength) {
