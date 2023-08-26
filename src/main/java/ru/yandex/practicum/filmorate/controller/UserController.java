@@ -29,7 +29,7 @@ public class UserController {
             int id = generatorId.getNextFreeId();
             log.info(user.toString());
             user.setId(id);
-            users.put(id ,user);
+            users.put(id, user);
         } else {
             throw new ValidationException("Пользователь не прошёл валидацию");
         }
