@@ -10,19 +10,19 @@ import java.time.LocalDate;
 @Component
 public class FilmValidator {
     private int maxDescriptionLength = 200;
-    private LocalDate releaseDate = LocalDate.parse("1895-12-28"); 
-    
+    private LocalDate releaseDate = LocalDate.parse("1895-12-28");
+
     public boolean validatorFilm(Film film) {
 
-         if (film.getDescription().length() > maxDescriptionLength) {
-             return false;
-         }
-         if (film.getReleaseDate().isBefore(releaseDate)) {
-             return false;
-         }
-         if (film.getDuration() < 0) {
-             return false;
-         }
-         return true;
+        if (film.getDescription().length() > maxDescriptionLength) {
+            return false;
+        }
+        if (film.getReleaseDate().isBefore(releaseDate)) {
+            return false;
+        }
+        if (film.getDuration() < 0) {
+            return false;
+        }
+        return true;
     }
 }
