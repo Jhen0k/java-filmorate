@@ -8,6 +8,7 @@ import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.FilmValidator;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +50,7 @@ public class FilmController {
 
     @GetMapping()
     public List<Film> getFilms() {
-        List<Film> films1 = films.values().stream().toList();
+        List<Film> films1 = new ArrayList<>(films.values());
         log.info("Текущее количество постов: {}", films.size());
         return films1;
     }

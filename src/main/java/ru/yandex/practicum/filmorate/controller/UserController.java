@@ -51,7 +51,7 @@ public class UserController {
 
     @GetMapping()
     public List<User> getUser() {
-        List<User> users1 = users.values().stream().toList();
+        List<User> users1 = new ArrayList<>(users.values());
         log.info("Текущее количество постов: {}", users.size());
         return users1;
     }
