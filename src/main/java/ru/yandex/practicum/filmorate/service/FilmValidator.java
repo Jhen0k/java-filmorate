@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Component
 public class FilmValidator {
     private int maxDescriptionLength = 200;
-    private LocalDate releaseDate = LocalDate.parse("1895-12-28");
+    private LocalDate releaseDate = LocalDate.parse("1895-12-28"); 
     
     public boolean validatorFilm(Film film) {
 
