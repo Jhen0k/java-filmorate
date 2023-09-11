@@ -26,9 +26,9 @@ public class UserService {
     }
 
     public String removeFriend(int userId, int friendId) {
-            findId(userId, friendId);
-            userStorage.getMapUsers().get(userId).getIdFriends().remove(friendId);
-            return String.format("Пользователь с id %s удален из друзей у пользователя с id %s!", friendId, userId);
+        findId(userId, friendId);
+        userStorage.getMapUsers().get(userId).getIdFriends().remove(friendId);
+        return String.format("Пользователь с id %s удален из друзей у пользователя с id %s!", friendId, userId);
     }
 
     public List<User> listOfMutualFriends(int userId, int friendId) {
@@ -36,9 +36,9 @@ public class UserService {
         List<User> listMutualFriends = new ArrayList<>();
 
         for (Integer id : userStorage.findUserById(userId).getIdFriends()) {
-           if (userStorage.findUserById(friendId).getIdFriends().contains(id)) {
-               listMutualFriends.add(userStorage.findUserById(id));
-           }
+            if (userStorage.findUserById(friendId).getIdFriends().contains(id)) {
+                listMutualFriends.add(userStorage.findUserById(id));
+            }
         }
         log.info("Текущее количество общих друзей: " + userStorage.getMapUsers().size());
         return listMutualFriends;

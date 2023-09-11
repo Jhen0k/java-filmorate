@@ -22,7 +22,7 @@ public class FilmService {
     public String addLike(Integer id, Integer userId) {
         findId(id, userId);
         filmStorage.getMapFilms().get(id).getLikes().add(userId);
-       return String.format("Пользователь с id: %s поставил лайк фильму с id: %s ", userId, id);
+        return String.format("Пользователь с id: %s поставил лайк фильму с id: %s ", userId, id);
     }
 
     public String removeLike(Integer id, Integer userId) {

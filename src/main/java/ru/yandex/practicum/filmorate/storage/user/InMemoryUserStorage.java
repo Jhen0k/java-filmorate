@@ -1,9 +1,7 @@
 package ru.yandex.practicum.filmorate.storage.user;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.springframework.stereotype.Component;
-import ru.yandex.practicum.filmorate.exception.IncorrectParameterException;
 import ru.yandex.practicum.filmorate.exception.IncorrectValueException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;

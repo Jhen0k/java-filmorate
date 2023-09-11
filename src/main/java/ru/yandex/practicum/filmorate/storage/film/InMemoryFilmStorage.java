@@ -1,7 +1,5 @@
 package ru.yandex.practicum.filmorate.storage.film;
 
-import jdk.jfr.Frequency;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -19,7 +17,7 @@ import java.util.Map;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class InMemoryFilmStorage implements FilmStorage{
+public class InMemoryFilmStorage implements FilmStorage {
 
     private final GeneratorId generatorId = new GeneratorId();
     private final FilmValidator filmValidator;
