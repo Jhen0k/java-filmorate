@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.stereotype.Component;
+import ru.yandex.practicum.filmorate.exception.IncorrectParameterException;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.time.LocalDate;
@@ -23,9 +24,15 @@ public class UserValidator {
         } else {
             return false;
         }
-        if (user.getBirthday().isAfter(LocalDate.now())) {
-            return false;
+        return !user.getBirthday().isAfter(LocalDate.now());
+    }
+
+    public void validateParameter(Integer userId, Integer friendId) {
+        if (userId < 0) {
+            throw new IncorrectParameterException("userId");
         }
-        return true;
+        if (friendId < 0) {
+            throw new IncorrectParameterException("friendId");
+        }
     }
 }
