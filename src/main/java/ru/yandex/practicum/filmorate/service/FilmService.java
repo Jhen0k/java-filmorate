@@ -33,8 +33,8 @@ public class FilmService {
 
     public List<Film> getTenPopularFilms(Integer count) {
 
-        return filmStorage.getFilms().stream().sorted((f0, f1) -> compare(f0.getLikes().size()
-                , f1.getLikes().size())).limit(count).collect(Collectors.toList());
+        return filmStorage.getFilms().stream().sorted((f0, f1) -> compare(f0.getLikes().size(),
+                f1.getLikes().size())).limit(count).collect(Collectors.toList());
     }
 
     private void findId(Integer id, Integer userId) {
