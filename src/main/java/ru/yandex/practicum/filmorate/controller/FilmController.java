@@ -7,7 +7,6 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exception.IncorrectParameterException;
 import ru.yandex.practicum.filmorate.exception.IncorrectValueException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.FilmService;
@@ -46,7 +45,7 @@ public class FilmController {
 
     @ApiOperation("Получение фильма по ID")
     @GetMapping("/{id}")
-    public Film getFilm( @PathVariable Integer id) {
+    public Film getFilm(@PathVariable Integer id) {
         return filmStorage.getFilm(id);
     }
 
