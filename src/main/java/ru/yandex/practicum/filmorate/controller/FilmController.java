@@ -1,68 +1,82 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import javax.validation.Valid;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exception.ValidationException;
+import ru.yandex.practicum.filmorate.exception.IncorrectValueException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.service.FilmService;
 import ru.yandex.practicum.filmorate.service.FilmValidator;
+import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/films")
 @AllArgsConstructor
 @Slf4j
+@Api(tags = "FilmController", description = "Операции с фильмами")
 public class FilmController {
-    private final GeneratorId generatorId = new GeneratorId();
-    private final FilmValidator filmValidator = new FilmValidator();
-    private final Map<Integer, Film> films = new HashMap<>();
+    private final FilmStorage filmStorage;
+    private final FilmService filmService;
+    private final FilmValidator filmValidator;
 
+    @ApiOperation("Добавление фильма")
     @PostMapping()
     public Film create(@Valid @RequestBody Film film) {
-        if (filmValidator.validatorFilm(film)) {
-            int id = generatorId.getNextFreeId();
-            log.info(film.toString());
-            film.setId(id);
-            films.put(id, film);
-        } else {
-            throw new ValidationException("Пользователь не прошёл валидацию");
-        }
-        return film;
+        return filmStorage.create(film);
     }
 
+    @ApiOperation("Обновление фильма")
     @PutMapping()
     public Film update(@Valid @RequestBody Film film) {
-        if (filmValidator.validatorFilm(film)) {
-            if (films.containsKey(film.getId())) {
-                log.info(film.toString());
-                films.put(film.getId(), film);
-            } else {
-                throw new ValidationException("id: " + film.getId() + " не существует.");
-            }
-        }
-        return film;
+        return filmStorage.update(film);
     }
 
+    @ApiOperation("Получение всех фильмов")
     @GetMapping()
     public List<Film> getFilms() {
-        List<Film> films1 = new ArrayList<>(films.values());
-        log.info("Текущее количество постов: {}", films.size());
-        return films1;
+        return filmStorage.getFilms();
     }
 
-    @GetMapping("/film")
-    public Film getFilm(int id) {
-        if (films.containsKey(id)) {
-            log.info(films.get(id).toString());
-            return films.get(id);
-        } else {
-            throw new ValidationException("id: " + id + " не существует.");
+    @ApiOperation("Получение фильма по ID")
+    @GetMapping("/{id}")
+    public Film getFilm(@PathVariable Integer id) {
+        return filmStorage.getFilm(id);
+    }
+
+    @ApiOperation("Добавление лайка к фильму.")
+    @PutMapping("{id}/like/{userId}")
+    public String addLikeToFilm(
+            @PathVariable Integer id,
+            @PathVariable Integer userId
+    ) {
+        filmValidator.validatorParameter(id, userId);
+        return filmService.addLike(id, userId);
+    }
+
+    @ApiOperation("Удаление лайка к фильму.")
+    @DeleteMapping("/{id}/like/{userId}")
+    public String removeLikeToFilm(
+            @PathVariable Integer id,
+            @PathVariable Integer userId
+    ) {
+        filmValidator.validatorParameter(id, userId);
+        return filmService.removeLike(id, userId);
+    }
+
+    @ApiOperation("Получение 10 популярных фильма.")
+    @GetMapping("/popular")
+    public List<Film> getPopularFilms(@RequestParam(defaultValue = "10", required = false) Integer count) {
+        if (count < 0) {
+            throw new IncorrectValueException(count);
         }
+        log.info(String.format("Запрос на %s лучших фильмов.", count));
+        log.info(String.format("Вернулось %s фильмов", filmService.getTenPopularFilms(count).size()));
+        return filmService.getTenPopularFilms(count);
     }
-
 }
