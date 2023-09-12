@@ -46,7 +46,7 @@ public class FilmService {
         }
     }
 
-    private int compare(int f0, int f1) {
+    private static int compare(int f0, int f1) {
         return f1 - f0; //прямой порядок сортировки
     }
 }
