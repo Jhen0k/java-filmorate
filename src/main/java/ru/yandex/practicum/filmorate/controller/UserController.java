@@ -1,68 +1,90 @@
 package ru.yandex.practicum.filmorate.controller;
 
 import javax.validation.Valid;
-import lombok.AllArgsConstructor;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.exception.ValidationException;
+import ru.yandex.practicum.filmorate.exception.IncorrectParameterException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.UserService;
+import ru.yandex.practicum.filmorate.service.UserValidator;
+import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
 import java.util.*;
 
 @RestController
 @RequestMapping("/users")
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
+@Api(tags = "UserController", description = "Операции с пользователями")
 public class UserController {
 
-    private final GeneratorId generatorId;
+    private final UserStorage userStorage;
     private final UserService userService;
-    private final Map<Integer, User> users = new HashMap<>();
+    private final UserValidator userValidator;
 
+    @ApiOperation("Добавление нового пользователя")
     @PostMapping()
     public User create(@Valid @RequestBody User user) {
-        if (userService.createUser(user)) {
-            if (Objects.isNull(user.getName())) {
-                user.setName(user.getLogin());
-            }
-            int id = generatorId.getNextFreeId();
-            log.info(user.toString());
-            user.setId(id);
-            users.put(id, user);
-        } else {
-            throw new ValidationException("Пользователь не прошёл валидацию");
-        }
-        return user;
+        return userStorage.createNewUser(user);
     }
 
+    @ApiOperation("Обновление пользователя")
     @PutMapping()
     public User update(@Valid @RequestBody User user) {
-        if (userService.createUser(user)) {
-            if (users.containsKey(user.getId())) {
-                log.info(user.toString());
-                users.put(user.getId(), user);
-            } else {
-                throw new ValidationException("id: " + user.getId() + " не существует.");
-            }
-        }
-        return user;
+        return userStorage.updateUser(user);
     }
 
+    @ApiOperation("Добавление друга")
+    @PutMapping("/{userId}/friends/{friendId}")
+    public String addFriend(
+            @PathVariable Integer userId,
+            @PathVariable Integer friendId
+    ) {
+        userValidator.validateParameter(userId, friendId);
+        return userService.addFriend(userId, friendId);
+    }
+
+    @ApiOperation("Удаление друга")
+    @DeleteMapping("/{userId}/friends/{friendId}")
+    public String remove(
+            @PathVariable Integer userId,
+            @PathVariable Integer friendId
+    ) {
+        userValidator.validateParameter(userId, friendId);
+        return userService.removeFriend(userId, friendId);
+    }
+
+    @ApiOperation("Получение всех пользователей")
     @GetMapping()
     public List<User> getUser() {
-        List<User> users1 = new ArrayList<>(users.values());
-        log.info("Текущее количество постов: {}", users.size());
-        return users1;
+       return userStorage.getUsers();
     }
 
-    @GetMapping("/user")
-    public User findUserById(int id) {
-        if (users.containsKey(id)) {
-            log.info(users.get(id).toString());
-            return users.get(id);
-        } else {
-            throw new ValidationException("id: " + id + " не существует.");
+    @ApiOperation("Получение пользователя по ID")
+    @GetMapping("/{userId}")
+    public User findUserById(@PathVariable Integer userId) {
+        return userStorage.findUserById(userId);
+    }
+
+    @ApiOperation("Получение списка общих друзей.")
+    @GetMapping("/{id}/friends/common/{otherId}")
+    public List<User> listOfMutualFriends(@PathVariable Integer id,
+                                          @PathVariable Integer otherId
+    ) {
+        userValidator.validateParameter(id, otherId);
+        return userService.listOfMutualFriends(id, otherId);
+    }
+
+    @ApiOperation("Получение списка пользователей, являющихся его друзьями")
+    @GetMapping("/{id}/friends")
+    public List<User> listAllFriendUser(@PathVariable Integer id) {
+        if (id < 0) {
+            throw new IncorrectParameterException("userId");
         }
+        return userService.listFriendsUser(id);
     }
 }

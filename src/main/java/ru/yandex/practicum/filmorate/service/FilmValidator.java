@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.service;
 
 import lombok.Data;
 import org.springframework.stereotype.Component;
+import ru.yandex.practicum.filmorate.exception.IncorrectParameterException;
 import ru.yandex.practicum.filmorate.model.Film;
 
 import java.time.LocalDate;
@@ -20,9 +21,15 @@ public class FilmValidator {
         if (film.getReleaseDate().isBefore(releaseDate)) {
             return false;
         }
-        if (film.getDuration() < 0) {
-            return false;
+        return film.getDuration() >= 0;
+    }
+
+    public void validatorParameter(Integer id, Integer filmId) {
+        if (id < 0) {
+            throw new IncorrectParameterException("userId");
         }
-        return true;
+        if (filmId < 0) {
+            throw new IncorrectParameterException("friendId");
+        }
     }
 }
