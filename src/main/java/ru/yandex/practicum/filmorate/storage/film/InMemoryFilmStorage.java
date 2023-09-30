@@ -81,7 +81,7 @@ public class InMemoryFilmStorage implements FilmStorage {
     @Override
     public Mpa getMpa(int id) {
         List<Rating> ratings = Arrays.asList(Rating.values());
-        return new Mpa(id, ratings.get(id -1).toString());
+        return new Mpa(id, ratings.get(id - 1).toString());
     }
 
     @Override
