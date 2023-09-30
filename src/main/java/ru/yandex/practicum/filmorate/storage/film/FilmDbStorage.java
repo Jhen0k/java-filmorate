@@ -38,8 +38,8 @@ public class FilmDbStorage implements FilmStorage {
             film.setId(simpleJdbcInsert.executeAndReturnKey(toMap(film)).intValue());
             if (film.getGenres() != null) {
                 for (Genre genre : film.getGenres()) {
-                    jdbcTemplate.update("insert into filmByGenre(film_id, genre_id) values(?, ?)"
-                            , film.getId(), genre.getId());
+                    jdbcTemplate.update("insert into filmByGenre(film_id, genre_id) values(?, ?)",
+                            film.getId(), genre.getId());
                 }
             }
         } else {
