@@ -25,6 +25,10 @@ public class UserStorageTest {
 
     @Test
     public void testFindUserById() {
+        User newUser = User.builder().name("friend adipisicing").login("friend").email("friend@mail.ru")
+                .birthday(LocalDate.parse("1976-08-20")).build();
+        userStorage.createNewUser(newUser);
+
         Optional<User> userOptional = Optional.of(userStorage.findUserById(1));
 
         assertThat(userOptional)
@@ -36,6 +40,10 @@ public class UserStorageTest {
 
     @Test
     public void testGetAllUser() {
+        User newUser = User.builder().name("friend adipisicing").login("friend").email("friend@mail.ru")
+                .birthday(LocalDate.parse("1976-08-20")).build();
+        userStorage.createNewUser(newUser);
+
         List<User> users = userStorage.getUsers();
 
         assertNotNull(users, "Список пустой");
@@ -44,10 +52,14 @@ public class UserStorageTest {
 
     @Test
     public void testUpdateUser() {
-        User newUser = User.builder().id(1).name("est adipisicing").login("doloreUpdate").email("mail@yandex.ru")
+        User newUser = User.builder().name("friend adipisicing").login("friend").email("friend@mail.ru")
+                .birthday(LocalDate.parse("1976-08-20")).build();
+        userStorage.createNewUser(newUser);
+
+        User newUser1 = User.builder().id(1).name("est adipisicing").login("doloreUpdate").email("mail@yandex.ru")
                 .birthday(LocalDate.parse("1976-09-20")).build();
 
-        userStorage.updateUser(newUser);
+        userStorage.updateUser(newUser1);
 
         Optional<User> userOptional = Optional.of(userStorage.findUserById(1));
 
@@ -56,9 +68,9 @@ public class UserStorageTest {
                 .hasValueSatisfying(user ->
                         assertThat(user).hasFieldOrPropertyWithValue("id", 1)
                 );
-        assertEquals(newUser.getName(), userOptional.get().getName(), "Имена не совпадают.");
-        assertEquals(newUser.getLogin(), userOptional.get().getLogin(), "Логин не совпадает");
-        assertEquals(newUser.getEmail(), userOptional.get().getEmail(), "email не совпадает.");
+        assertEquals(newUser1.getName(), userOptional.get().getName(), "Имена не совпадают.");
+        assertEquals(newUser1.getLogin(), userOptional.get().getLogin(), "Логин не совпадает");
+        assertEquals(newUser1.getEmail(), userOptional.get().getEmail(), "email не совпадает.");
     }
 
     @Test

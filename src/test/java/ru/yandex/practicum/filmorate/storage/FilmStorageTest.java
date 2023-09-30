@@ -28,7 +28,10 @@ public class FilmStorageTest {
 
     @Test
     public void findFilmById() {
+        Film newFilm = Film.builder().name("New film").releaseDate(LocalDate.parse("1999-04-30"))
+                .description("New film about friends").duration(120).rate(4).mpa(new Mpa(3, null)).build();
 
+        filmStorage.create(newFilm);
         Optional<Film> filmOptional = Optional.of(filmStorage.getFilm(1));
 
         assertThat(filmOptional)
@@ -40,6 +43,11 @@ public class FilmStorageTest {
 
     @Test
     public void getAllFilms() {
+        Film newFilm1 = Film.builder().name("New film").releaseDate(LocalDate.parse("1999-04-30"))
+                .description("New film about friends").duration(120).rate(4).mpa(new Mpa(3, null)).build();
+
+        filmStorage.create(newFilm1);
+
         List<Film> filmList = filmStorage.getFilms();
 
         assertNotNull(filmList, "Список пуст.");
@@ -74,12 +82,12 @@ public class FilmStorageTest {
 
         filmStorage.create(newFilm);
 
-        Optional<Film> filmOptional = Optional.of(filmStorage.getFilm(3));
+        Optional<Film> filmOptional = Optional.of(filmStorage.getFilm(2));
 
         assertThat(filmOptional)
                 .isPresent()
                 .hasValueSatisfying(film ->
-                        assertThat(film).hasFieldOrPropertyWithValue("id", 3)
+                        assertThat(film).hasFieldOrPropertyWithValue("id", 2)
                 );
 
         assertEquals(newFilm.getName(), filmOptional.get().getName(), "Имена не совпадают.");
