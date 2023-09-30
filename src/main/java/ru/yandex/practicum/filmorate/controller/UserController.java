@@ -29,6 +29,7 @@ public class UserController {
     @ApiOperation("Добавление нового пользователя")
     @PostMapping()
     public User create(@Valid @RequestBody User user) {
+        log.info(user.toString());
         return userStorage.createNewUser(user);
     }
 
@@ -61,7 +62,7 @@ public class UserController {
     @ApiOperation("Получение всех пользователей")
     @GetMapping()
     public List<User> getUser() {
-       return userStorage.getUsers();
+        return userStorage.getUsers();
     }
 
     @ApiOperation("Получение пользователя по ID")

@@ -2,10 +2,11 @@ package ru.yandex.practicum.filmorate.storage.film;
 
 import org.springframework.web.bind.annotation.RequestBody;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.Genre;
+import ru.yandex.practicum.filmorate.model.Mpa;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 
 public interface FilmStorage {
 
@@ -17,5 +18,11 @@ public interface FilmStorage {
 
     Film getFilm(int id);
 
-    Map<Integer, Film> getMapFilms();
+    List<Mpa> getAllMpa();
+
+    Mpa getMpa(int id);
+
+    List<Genre> getAllGenres();
+
+    Genre getGenre(int id);
 }

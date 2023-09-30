@@ -1,14 +1,13 @@
 package ru.yandex.practicum.filmorate.storage.user;
 
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import ru.yandex.practicum.filmorate.model.User;
 
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
-@Component
 public interface UserStorage {
 
     User createNewUser(@Valid @RequestBody User user);
@@ -18,6 +17,10 @@ public interface UserStorage {
     List<User> getUsers();
 
     User findUserById(int id);
+
+    String addFriend(int userId, int friendId);
+
+    String removeFriend(int userId, int friendId);
 
     Map<Integer, User> getMapUsers();
 }

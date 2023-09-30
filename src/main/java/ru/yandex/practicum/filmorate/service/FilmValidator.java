@@ -32,4 +32,16 @@ public class FilmValidator {
             throw new IncorrectParameterException("friendId");
         }
     }
+
+    public void validatorMpaId(Integer id) {
+        if (id < 0 || id > 5) {
+            throw new IncorrectParameterException("mpaId");
+        }
+    }
+
+    public void validatorGenreId(Integer id) {
+        if (id < 0 || id > 6) {
+            throw new IncorrectParameterException("genreId");
+        }
+    }
 }
