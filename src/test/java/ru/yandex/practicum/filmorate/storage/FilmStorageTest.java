@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class FilmStorageTest {
 
-    private final FilmStorage filmStorage;
+    public final FilmStorage filmStorage;
 
     @Test
     public void findFilmById() {

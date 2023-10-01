@@ -13,7 +13,10 @@ import ru.yandex.practicum.filmorate.service.UserValidator;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @Slf4j
 @Component
@@ -84,9 +87,8 @@ public class UserDbStorage implements UserStorage {
     }
 
     private List<Integer> idFriends(int id) {
-        return jdbcTemplate.query("SELECT follower_id FROM friend WHERE user_id = ?", (rs, rowNum) -> {
-            return (Integer) rs.getInt("follower_id");
-        }, id);
+        return jdbcTemplate.query("SELECT follower_id FROM friend WHERE user_id = ?", (rs, rowNum) ->
+                rs.getInt("follower_id"), id);
     }
 
     private User makeUser(ResultSet rs) throws SQLException {

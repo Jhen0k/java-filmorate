@@ -1,7 +1,5 @@
 package ru.yandex.practicum.filmorate.controller;
 
-import javax.validation.Valid;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -14,15 +12,15 @@ import ru.yandex.practicum.filmorate.model.Mpa;
 import ru.yandex.practicum.filmorate.service.FilmService;
 import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping
 @RequiredArgsConstructor
 @Slf4j
-@Api(tags = "FilmController", description = "Операции с фильмами")
+@Api(tags = {"FilmController"})
 public class FilmController {
-
 
     private final FilmStorage filmStorage;
     private final FilmService filmService;

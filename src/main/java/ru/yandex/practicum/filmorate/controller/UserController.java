@@ -1,7 +1,5 @@
 package ru.yandex.practicum.filmorate.controller;
 
-import javax.validation.Valid;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -13,13 +11,14 @@ import ru.yandex.practicum.filmorate.service.UserService;
 import ru.yandex.practicum.filmorate.service.UserValidator;
 import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
-import java.util.*;
+import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
 @Slf4j
-@Api(tags = "UserController", description = "Операции с пользователями")
+@Api(tags = {"UserController"})
 public class UserController {
 
     private final UserStorage userStorage;

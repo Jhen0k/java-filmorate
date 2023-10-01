@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class UserStorageTest {
 
-    private final UserStorage userStorage;
+    public final UserStorage userStorage;
 
     @Test
     public void testFindUserById() {
