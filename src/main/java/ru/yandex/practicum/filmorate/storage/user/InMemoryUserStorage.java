@@ -1,8 +1,9 @@
 package ru.yandex.practicum.filmorate.storage.user;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exception.IncorrectValueException;
+import ru.yandex.practicum.filmorate.exception.UserNotFoundException;
 import ru.yandex.practicum.filmorate.exception.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.GeneratorId;
@@ -11,7 +12,7 @@ import ru.yandex.practicum.filmorate.service.UserValidator;
 import java.util.*;
 
 @Component
-@AllArgsConstructor
+@Builder
 public class InMemoryUserStorage implements UserStorage {
 
     private final GeneratorId generatorId;
@@ -55,8 +56,21 @@ public class InMemoryUserStorage implements UserStorage {
         if (users.containsKey(id)) {
             return users.get(id);
         } else {
-            throw new IncorrectValueException(id);
+            throw new UserNotFoundException(String.format("Пользователя с таким id: %s не существует.", id));
         }
+    }
+
+    @Override
+    public String addFriend(int userId, int friendId) {
+        findUserById(userId).getIdFriends().add(friendId);
+        findUserById(friendId).getIdFriends().add(userId);
+        return String.format("Пользователь с id %s добавлен в друзья к пользователю с id %s!", friendId, userId);
+    }
+
+    @Override
+    public String removeFriend(int userId, int friendId) {
+        findUserById(userId).getIdFriends().remove(friendId);
+        return String.format("Пользователь с id %s удален из друзей у пользователя с id %s!", friendId, userId);
     }
 
     @Override
